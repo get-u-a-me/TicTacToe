@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f0f0f0;
+    display: grid;
+    margin-top: 8rem;
+}
+
+.main {
+    background: #ededed;
+    place-self: center;
+    border-radius: 1rem;
+    box-shadow: 0px 0px 10px 1px black;
+    width: 90%;
+    max-width: 400px;
+}
+
+.currentplayer-container {
+    display: grid;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.currentplayer {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.field-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    margin: 1rem;
+}
+
+.field-item {
+    width: min(25vw, 100px);
+    height: min(25vw, 100px);
+    text-align: center;
+    align-content: center;
+    border-radius: 10px;
+    margin: 4px;
+    background-color: #cfcdcd;
+}
+
+.field-item:hover {
+    background: #c3c3c3;
+    cursor: pointer;
+}
+
+.stats-container {
+    display: grid;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.winner {
+    text-align: center;
+    color: blue;
+}
+
+.reset {
+    padding: 0.4rem;
+    width: 9rem;
+    font-size: 1rem;
+    background-color: #20c00e;
+    color: white;
+    border-radius: 0.5rem;
+}
+
+.reset:hover {
+    background-color: #14a504;
+    cursor: pointer;
+}
