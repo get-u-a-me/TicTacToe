@@ -4,12 +4,13 @@ const winnerLabel = document.querySelector(".winner");
 const currentPlayerLabel = document.querySelector(".currentplayer");
 
 fields.forEach((item) => item.addEventListener("click", (e) => {
-    if (GameManager.getWin() === true) return;
+    if (GameManager.getWin()) return;
     if (item.textContent !== "") return;
+    if (GameManager.getCurrentPlayerSign() !== "X") return;
 
-    item.textContent = GameManager.getCurrentPlayerSign();
     GameManager.makeMove(item.id);
-}))
+}));
+
 
 resetBtn.addEventListener("click", () => {
     Gameboard.reset();
@@ -37,12 +38,20 @@ const Gameboard = (() => {
                 field[b] === field[c]
             ) {
                 GameManager.setWin(true);
-                winnerLabel.textContent = GameManager.getCurrentPlayerName()+ " wins";
+                winnerLabel.textContent = GameManager.getCurrentPlayerName() + " wins";
                 currentPlayerLabel.textContent = "Press to restart"
                 GameManager.setCurrentPlayer();
                 return true;
             }
         }
+
+        if (!field.includes(" ")) {
+            winnerLabel.textContent = "It's a draw!";
+            currentPlayerLabel.textContent = "Press to restart";
+            GameManager.setWin(true);
+            return null;
+        }
+
         return null
     };
 
@@ -76,6 +85,14 @@ function createPlayer(name, sign) {
     };
 }
 
+function computerMove() {
+    let position;
+    do {
+        position = Math.floor(Math.random() * 9);
+    } while (Gameboard.field[position] !== " ");
+    GameManager.makeMove(position + 1);
+}
+
 const GameManager = (() => {
 
     const player1 = createPlayer("Player 1", "X");
@@ -91,19 +108,25 @@ const GameManager = (() => {
         win = con;
     }
 
-
     const makeMove = (position) => {
+        if (win) return;
 
-        if (Gameboard.field[position - 1] !== "X" && Gameboard.field[position - 1] !== "O") {
+        if (Gameboard.field[position - 1] === " ") {
             Gameboard.field[position - 1] = currentplayer.sign;
-        }
-        Gameboard.checkWinner();
-        if(Gameboard.checkWinner()){
+            fields[position - 1].textContent = currentplayer.sign;
+        } else {
             return;
         }
-        GameManager.switchPlayer();
 
+        if (Gameboard.checkWinner()) return;
+
+        switchPlayer();
+
+        if (getCurrentPlayerSign() === "O" && !win) {
+            setTimeout(() => computerMove(), 300);
+        }
     }
+
 
     const switchPlayer = () => {
         currentplayer = currentplayer.sign === "X" ? player2 : player1;
