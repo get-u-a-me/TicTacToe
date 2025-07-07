@@ -4,7 +4,7 @@ const winnerLabel = document.querySelector(".winner");
 const currentPlayerLabel = document.querySelector(".currentplayer");
 
 fields.forEach((item) => item.addEventListener("click", (e) => {
-    if (GameManager.win === true) return;
+    if (GameManager.getWin() === true) return;
     if (item.textContent !== "") return;
 
     item.textContent = GameManager.getCurrentPlayerSign();
@@ -36,7 +36,7 @@ const Gameboard = (() => {
                 field[a] === field[b] &&
                 field[b] === field[c]
             ) {
-                GameManager.win = true;
+                GameManager.setWin(true);
                 winnerLabel.textContent = GameManager.getCurrentPlayerName()+ " wins";
                 currentPlayerLabel.textContent = "Press to restart"
                 GameManager.setCurrentPlayer();
@@ -53,7 +53,7 @@ const Gameboard = (() => {
     }
 
     const reset = () => {
-        GameManager.win = false;
+        GameManager.setWin(false);
         for (let i = 0; i < 9; i++) {
             field[i] = " ";
         }
@@ -83,6 +83,13 @@ const GameManager = (() => {
     let currentplayer = player1;
 
     let win = false;
+
+    const getWin = () => {
+        return win;
+    }
+    const setWin = (con) => {
+        win = con;
+    }
 
 
     const makeMove = (position) => {
@@ -117,7 +124,8 @@ const GameManager = (() => {
     return {
         makeMove,
         getCurrentPlayerSign,
-        win,
+        setWin,
+        getWin,
         switchPlayer,
         getCurrentPlayerName,
         setCurrentPlayer
